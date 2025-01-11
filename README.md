@@ -15,6 +15,23 @@ This Weather Service Application fetches weather data for a random city, stores 
 - Provides a user-friendly dashboard to view the data and predictions.
 
 ---
+## Design Decisions
+
+### Why Use a CSV File for City Selection?
+
+While developing this project, I evaluated several free weather APIs. Most of them had strict limitations, such as API rate limits, subscription requirements, or incomplete city datasets. To overcome these challenges, I opted to use a publicly available `worldcities.csv` file, which provides a comprehensive list of cities along with their geographic coordinates. By randomly selecting cities from this dataset, the service ensures a seamless experience without being constrained by API limitations.
+
+### CLI Script (`setupInCli.ps1`)
+
+The Azure CLI script (`setupInCli.ps1`) automates the process of setting up resources on Azure, including:
+
+- Creating a resource group.
+- Setting up an Azure Container Registry (ACR).
+- Deploying a Kubernetes cluster (AKS).
+- Connecting the local Kubernetes CLI (`kubectl`) to the AKS cluster.
+
+This script was designed to simplify resource creation and minimize manual errors. It is included in the repository for reference but has already been executed during the deployment process.
+
 
 ## How to Access the Service
 
@@ -29,6 +46,9 @@ The service is already deployed and running. You can access it using the followi
 - Predictions for the next 5 days in a separate section.
 - Display of trends in temperature and suggested activities.
 
+Below is a snapshot of the dashboard:
+
+![Dashboard Snapshot](images/dashboard_snapshot.png)
 
 ## Development Setup (Optional for Local Testing)
 
@@ -56,6 +76,8 @@ pip install -r requirements.txt
 Run the Application Locally:
 python main/app.py
 Access the service locally at: http://127.0.0.1:5000
+
+Or you can run weather.py (python main/weather.py) and you can see the result in SQlite by uploading the weather_data.db from the data folder.
 
 
 📂 microsoft-assignment
@@ -92,5 +114,15 @@ Used to cluster average temperatures and suggest activities. A fallback logic is
 
 3. Fallback Logic for Activities
 If K-means clustering suggests unrealistic activities, the fallback logic assigns activities based on predefined temperature ranges.
+
+
+Known Challenges and Solutions
+Limited Dataset for Clustering:
+The dataset size affects clustering accuracy.
+Adjusted cluster numbers and added fallback logic to mitigate this.
+
+Azure Quota Errors:
+Encountered quota issues when creating resources.
+Resolved by registering the Microsoft.Compute provider and selecting an appropriate region.
 
 For any questions, please contact me at: kataev.nat@gmail.com
