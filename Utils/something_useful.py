@@ -52,10 +52,31 @@ def suggest_activity(avg_temp, clustering_model,scaler):
         3: "Beach Day",
         4: "Outdoor Activities"
     }
-    return cluster_to_activity.get(cluster, "No Suitable Activity")
+
+    suggested_activity = cluster_to_activity.get(cluster, "No Suitable Activity")
+
+    if avg_temp < 5:
+        return "Stay Indoors"  # Very cold temperatures
+    elif 5 <= avg_temp < 15:
+        return "Running"  
+    elif 15 <= avg_temp < 25:
+        return "Outdoor Walk"  
+    elif 25 <= avg_temp < 35:
+        return "Outdoor Activities" 
+    elif avg_temp >= 35:
+        return "Beach Day"  # Hot temperatures
+    
+    # Apply fallback rules for extreme temperatures
+    if avg_temp < 3:  # Extreme cold
+        return "Stay Indoors"
+    elif avg_temp > 38:  # Extreme heat
+        return "Stay Indoors"
+    else:
+        # Use K-Means activity for reasonable temperatures
+        return suggested_activity
 
 
-def train_clustering_model(avg_temps, n_clusters=5):
+def train_clustering_model(avg_temps, n_clusters=8):
     scaler = StandardScaler()  # Normalize the data
     normalized_temps = scaler.fit_transform(np.array(avg_temps).reshape(-1, 1))
 

@@ -41,7 +41,7 @@ class TestWeatherService(unittest.TestCase):
     def test_suggest_activity(self):
         """Test activity suggestions for various temperatures."""
         avg_temps = [10, 20, 30]
-        clustering_model, scaler = train_clustering_model(avg_temps, n_clusters=3)  # Match `n_clusters` to data
+        clustering_model, scaler = train_clustering_model(avg_temps, n_clusters=3) 
         activities = [suggest_activity(temp, clustering_model, scaler) for temp in avg_temps]
         self.assertEqual(len(activities), len(avg_temps), "Should suggest activities for all temperatures.")
         self.assertIn("Stay Indoors", activities)
@@ -50,7 +50,7 @@ class TestWeatherService(unittest.TestCase):
     def test_save_weather_data(self):
         """Test saving weather data to the database."""
         weather_data = [{"date": "2024-12-01", "max_temp": 25.0, "min_temp": 15.0}]
-        clustering_model, scaler = train_clustering_model([25.0], n_clusters=1)  # Use a single cluster for test
+        clustering_model, scaler = train_clustering_model([25.0], n_clusters=1)  
         save_weather_data(DB_NAME, "Test City", "Test Country", weather_data, clustering_model, scaler)
         data = fetch_all_data(DB_NAME)
         self.assertEqual(len(data), 1, "One record should be saved in the database.")

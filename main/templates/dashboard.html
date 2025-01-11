@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .prediction-table th {
+            background-color: #f4d03f;
+            color: black;
+        }
+        .activity-cell {
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+        .activity-stay-indoors {
+            color: red;
+        }
+        .activity-outdoor-walk {
+            color: green;
+        }
+        .activity-beach-day {
+            color: blue;
+        }
+        .activity-running {
+            color: orange;
+        }
+        .activity-outdoor-activities {
+            color: purple;
+        }
+        .summary {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        justify-content: center;
+        }
+        .summary .card {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            text-align: center;
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weather Dashboard</h1>
+
+    <div class="summary">
+        <div class="card">Total Records: <strong>{{ total_records }}</strong></div>
+        <div class="card">Average Temp: <strong>{{ avg_temp }} °C</strong></div>
+        <div class="card">Hottest Day Temp: <strong>{{ hottest_day }} °C</strong></div>
+        <div class="card">Coldest Day Temp: <strong>{{ coldest_day }} °C</strong></div>
+        <div class="card">Most Frequent Activity: <strong>{{ most_frequent_activity }}</strong></div>
+    </div>
+
+    <h2>Main Weather Data</h2>
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Date</th>
+            <th>Max Temp</th>
+            <th>Min Temp</th>
+            <th>Avg Temp</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for row in weather_data[:-5] %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td class="activity-cell activity-{{ row[7] | lower | replace(' ', '-') }}">{{ row[7] }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Prediction Data Table -->
+    <h2>Predictions</h2>
+    <table class="prediction-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Date</th>
+            <th>Max Temp</th>
+            <th>Min Temp</th>
+            <th>Avg Temp</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for row in weather_data[-5:] %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}</td>
+                <td class="activity-cell activity-{{ row[7] | lower | replace(' ', '-') }}">{{ row[7] }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

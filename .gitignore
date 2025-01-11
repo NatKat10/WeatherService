@@ -14,6 +14,7 @@ env/
 
 # Database (regenerated on script execution)
 weather_data.db
+test_weather_data.db
 
 # CSV backup files
 *.csv~
